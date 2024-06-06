@@ -1,6 +1,8 @@
 const bcrypt = require('bcrypt');
-
+const jwt = require('jsonwebtoken');
 const User = require('../model/user');
+
+
 const login = async (req,res) =>{
     const {username,password} = req.body;
     try{
@@ -21,7 +23,9 @@ const login = async (req,res) =>{
         res.status(200).json({token : token});
 
     }catch(err){
+        console.log(err);
         res.status(500).json({message:"Internal Server Error"});
+
     }
 }
 
@@ -48,8 +52,14 @@ const register = async (req,res)=>{
     }
 }
 
-const listUsers = (req,res)=>{
-    console.log("Listing User");
+const listUsers = async (req,res)=>{
+    if(req.user.role !== 'admin'){
+        return res.status(403).json({message:"Forbidden, You don't have the access of this data"});
+    }
+
+    const users = await User.find().select('-password').lean();
+    return res.status(200).json(users)
+
 }
 module.exports = {
     login,

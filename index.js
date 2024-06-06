@@ -4,7 +4,7 @@ const PORT = process.env.PORT || 3000;
 const userRoutes = require('./routes/user');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-
+const searchRoutes = require('./routes/search');
 
 require('dotenv').config();
 app.use(bodyParser.json());
@@ -21,7 +21,8 @@ app.get("/",(req, res) =>{
     res.send("Please sign in on endpoint /api/user/login");
 })
 
-app.use('/api/user',userRoutes);    
+app.use('/api/user',userRoutes);  
+app.use('/api/search',searchRoutes);  
 
 app.listen(PORT,()=>{
     console.log("Listening on port: " +PORT);
