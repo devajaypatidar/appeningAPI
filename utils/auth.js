@@ -1,6 +1,8 @@
 require('dotenv').config();
 const jwt = require('jsonwebtoken');
 const secret = process.env.JWT_SECRET;
+
+// authorization using JWT
 const authorization = (req,res,next)=>{
     const token = req.header("Authorization").replace('Bearer ','');
     if(!token) return res.status(401).json({message:"Access Denied "});
@@ -10,7 +12,7 @@ const authorization = (req,res,next)=>{
         req.user = user;
         next();
     }catch(err){
-        res.status(400).json({message:" Error occured while verifying token "});
+        res.status(400).json({message:" Error occured while verifying token ",err:err});
     }
 }
 

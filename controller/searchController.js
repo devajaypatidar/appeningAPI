@@ -1,5 +1,6 @@
 const areAnagrams = require('../utils/anagram')
 
+// Controller function to search for anagrams of a given string in an array
 const searchString = (req,res)=>{
     const {string} = req.body;
     // console.log(string);

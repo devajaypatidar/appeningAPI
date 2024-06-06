@@ -9,6 +9,7 @@ const searchRoutes = require('./routes/search');
 require('dotenv').config();
 app.use(bodyParser.json());
 
+//database connection
 mongoose.connect(process.env.MONGO_URL)
 
 const db = mongoose.connection;
@@ -17,11 +18,16 @@ db.once('open', () => {
   console.log('Connected to MongoDB');
 });
 
+
+// simple get home route
 app.get("/",(req, res) =>{
     res.send("Please sign in on endpoint /api/user/login");
 })
 
+// Mounts user routes under the '/api/user'
 app.use('/api/user',userRoutes);  
+
+//Mounts search routes under the '/api/search'
 app.use('/api/search',searchRoutes);  
 
 app.listen(PORT,()=>{

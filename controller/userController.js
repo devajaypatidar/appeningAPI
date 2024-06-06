@@ -2,7 +2,7 @@ const bcrypt = require('bcrypt');
 const jwt = require('jsonwebtoken');
 const User = require('../model/user');
 
-
+// Controller function to handle user login
 const login = async (req,res) =>{
     const {username,password} = req.body;
     try{
@@ -15,7 +15,7 @@ const login = async (req,res) =>{
         if(!isMatch){
             return res.status(400).json({message:"Invalid Creadentials"});
         }
-
+        // Generate JWT token
         const token = jwt.sign({
             _id:user._id, 
             role:user.role, 
@@ -28,6 +28,9 @@ const login = async (req,res) =>{
 
     }
 }
+
+
+// Controller function to handle user registration
 
 const register = async (req,res)=>{
     const {username,password,role} = req.body;
@@ -52,6 +55,7 @@ const register = async (req,res)=>{
     }
 }
 
+//controller function for list User (accessible only to admin)
 const listUsers = async (req,res)=>{
     if(req.user.role !== 'admin'){
         return res.status(403).json({message:"Forbidden, You don't have the access of this data"});
